@@ -8,25 +8,30 @@ var app = express();
 //  ES la api para la entrada de la fecha
 app.get('/api/:date?', (req, res) => {
 
-  console.log (req.params.date);
+  console.log ('entrada : ' + req.params.date);
   const dateParam = req.params.date; // 'tu_fecha_aqui'; // Reemplaza esto con tu fecha
   let fecha;
   
   if (/^\d+$/.test(dateParam)) {
+    console.log ("fecha unix");
     fecha = new Date(parseInt(dateParam));
-    res.json({
+    res.setHeader('Content-Type', 'application/json');
+    res.send(JSON.stringify({
       unix: fecha.getTime(),
       utc: fecha.toUTCString()
-    });
+    }));
 
+ 
 } else if (/^\d{4}-\d{2}-\d{2}(T\d{2}:\d{2}:\d{2}(.\d{3})?(Z|([+-]\d{2}:\d{2}))?)?$/.test(dateParam)) {
     // Intenta parsear la fecha como una cadena ISO 8601
     fecha = new Date(dateParam);
+    console.log ("fecha valida iso" );
     res.json({
       utc: fecha.toUTCString()
     });
 } else {
-  res.json({ error: "Invalid Date" });   
+  console.log ("fecha no valida");
+  res.json({error: "Invalid Date"});   
 }
 });
 
