@@ -8,5 +8,6 @@ views
 public
 package.json 
 package-lock.json 
-
+.vscode
 ejemplo.js
+
